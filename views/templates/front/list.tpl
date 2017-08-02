@@ -5,7 +5,7 @@
     {foreach from=$posts item=post}
         <div class="panel panel-default">
             <div class="panel-body">
-                <a href="">{$post.author}</a>
+                <a href="{$post.link}">{$post.author}</a>
             </div>
         </div>
     {/foreach}

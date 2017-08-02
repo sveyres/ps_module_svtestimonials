@@ -9,9 +9,13 @@ class svtestimonialslistModuleFrontController extends ModuleFrontController
 
         $postslist = $this->get_post() ;
         if ($postslist) {
+            foreach ($postslist as $post) {
+                $post["link"] = $this->context->link->getModuleLink('svtestimonials', 'postdetail', array('id' =>$post['id_svtestimonials']));
+                $posts[] = $post;
+            }
             $this->context->smarty->assign(
                 array(
-                    'posts' => $postslist
+                    'posts' => $posts
                 )
             );
         }
