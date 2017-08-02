@@ -31,6 +31,7 @@ class SvTestimonials extends Module
 
         if (!parent::install()
             || !$this->installTab()
+            || !$this->installDb()
             || !$this->registerHook('displayHome')
 
         ){
@@ -39,7 +40,23 @@ class SvTestimonials extends Module
         return true;
     }
 
+// --------------------------------------------------------- SQL
+    public function installDb()
+    {
+        return Db::getInstance()->Execute('
+        CREATE TABLE '._DB_PREFIX_.'svtestimonials (
+            id_svtestimonials INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            author VARCHAR(200) NOT NULL,
+            testimonial TEXT NOT NULL,
+            date DATETIME DEFAULT CURRENT_TIMESTAMP )'
+        );
+    }
 
+    public function uninstallDb()
+    {
+        return Db::getInstance()->Execute('DROP TABLE '._DB_PREFIX_.'svtestimonials');
+    }
+// ------------------- END SQL
 // --------------------------------------------------------- TAB
     public function installTab()
     {
@@ -57,7 +74,7 @@ class SvTestimonials extends Module
 
     public function uninstallTab()
     {
-        $id_tab = (int)Tab::getIdFromClassName('SvTestimonials');
+        $id_tab = (int)Tab::getIdFromClassName('AdminSvTestimonials');
         if ($id_tab) {
             $tab = new Tab($id_tab);
             return $tab->delete();
@@ -71,6 +88,7 @@ class SvTestimonials extends Module
     {
         if (!parent::uninstall()
             ||!$this->uninstallTab()
+            ||!$this->uninstallDb()
         ) {
             return false;
         }
