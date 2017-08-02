@@ -95,4 +95,24 @@ class SvTestimonials extends Module
         return true;
     }
 
+// --------------------------------------------------------- HOOK
+    public function hookDisplayHome($params)
+    {
+        $this->context->smarty->assign(
+            array(
+            'my_module_name' => Configuration::get('SVTESTIMONIALS_NAME'),
+            'my_module_link' => $this->context->link->getModuleLink('svtestimonials', 'list'),
+            'my_module_message' => $this->l('This is a simple text message'),
+
+            )
+        );
+        return $this->display(_PS_MODULE_DIR_.$this->name, 'svtestimonials.tpl');
+    }
+
+    public function hookDisplayHeader()
+    {
+        $this->context->controller->addCSS($this->_path.'css/svtestimonial.css', 'all');
+    }
+// -------------------END HOOK
+
 }
